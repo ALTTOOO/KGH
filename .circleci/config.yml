@@ -1,1 +1,21 @@
+version: 2.1
 
+jobs:
+  mirror:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Push to organization repo
+          command: |
+            git config --global user.name "gwanghyeon-k"
+            git config --global user.email "gwanghyeonkim01@gmail.com"
+            git remote add org https://x-access-token:${ORG_PUSH_PAT}@github.com/ALTTOOO/KGH.git
+            git push org main --force
+
+workflows:
+  version: 2
+  mirror-to-org:
+    jobs:
+      - mirror
